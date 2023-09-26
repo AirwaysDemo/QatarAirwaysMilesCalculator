@@ -6,11 +6,10 @@ import ballerina/io;
 configurable string USER = ?;
 configurable string PASSWORD = ?;
 configurable string HOST = ?;
-configurable int PORT = ?;
 configurable string DATABASE = ?;
 
 final mysql:Client dbClient = check new (
-    host = HOST, user = USER, password = PASSWORD, port = PORT, database = DATABASE
+    host = HOST, user = USER, password = PASSWORD, database = DATABASE
 );
 
 service /qatarairways on new http:Listener(9092) {
@@ -50,7 +49,7 @@ service /qatarairways on new http:Listener(9092) {
 
 function getMiles(string customerId) returns CheckIn|error {
     return dbClient->queryRow(
-        `SELECT sum(flightDistance) as flightDistance FROM checkin WHERE customerId = ${customerId}`
+        `SELECT sum(flightDistance) as flightDistance FROM qatarCheckin WHERE customerId = ${customerId}`
     );
 }
 
